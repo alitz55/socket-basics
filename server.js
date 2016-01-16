@@ -13,16 +13,17 @@ io.on("connection", function(socket) {
 	socket.on("message", function(message) {
 		console.log("Message received: " + message.text);
 
-		// Send to all sockets except for the sender
-		socket.broadcast.emit("message", message);
+		// // Send to all sockets except for the sender
+		// socket.broadcast.emit("message", message);
 
-		// // Sends to ALL sockets
-		// io.emit("message", message);
+		// Sends to ALL sockets
+		io.emit("message", message);
 	});
 
 	socket.emit("message", {
 		text: 'Welcome to chat app'
 		,timestamp: moment().valueOf()
+		,name: "System"
 	});
 });
 
