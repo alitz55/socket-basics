@@ -6,7 +6,8 @@ socket.on("connect", function() {
 
 socket.on("message", function(message) {
 	console.log("New Message: " + message.text);
-	$("#incomingMessages").append("<p>" + message.text + "</p>");
+	var timestampMoment = moment.utc(message.timestamp);
+	$("#incomingMessages").append("<p><strong>" + moment.utc(message.timestamp).local().format('h:mm a') + "</strong> " + message.text + "</p>");
 });
 
 var $form = jQuery("#message-form");
@@ -16,9 +17,15 @@ $form.on("submit", function(event) {
 
 	var $messageField = $form.find("input[name=message]")
 
+	var mess = $messageField.val();
+	var ts = moment().valueOf();
+
 	socket.emit("message", {
-		text: $messageField.val()
+		text: mess
+		,timestamp: ts
 	});
 
 	$messageField.val("");
+	$("#incomingMessages").append('<p style="color:red;">' + moment.utc(ts).local().format('h:mm a') + " " + mess + "</p>");
+
 });
