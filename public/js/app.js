@@ -3,9 +3,17 @@ var socket = io();
 var name = getQueryVariable("name") || "Silent Bob";
 var room = getQueryVariable("room");
 console.log(name + " wants to join " + room);
+$("h1.roomTitle").text(room);
 
 socket.on("connect", function() {
 	console.log("connected to server");
+
+	if (room) {
+		socket.emit("joinRoom", {
+			name: name
+			,room: room
+		});
+	}
 });
 
 socket.on("message", function(message) {
