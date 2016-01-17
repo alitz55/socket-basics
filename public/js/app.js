@@ -19,9 +19,12 @@ socket.on("connect", function() {
 socket.on("message", function(message) {
 	console.log("New Message: " + message.text);
 	var timestampMoment = moment.utc(message.timestamp);
-	var newMessage = $("#incomingMessages");
-	newMessage.append("<p><strong>" + message.name + " " + moment.utc(message.timestamp).local().format('h:mm a') + "</stong></p>");
-	newMessage.append("<p>" + message.text + "</p>");
+	var $messages = $("#incomingMessages");
+	var $message = jQuery('<li class="list-group-item"></li>');
+
+	$message.append("<p><strong>" + message.name + " " + moment.utc(message.timestamp).local().format('h:mm a') + "</stong></p>");
+	$message.append("<p>" + message.text + "</p>");
+	$messages.append($message);
 });
 
 var $form = jQuery("#message-form");
